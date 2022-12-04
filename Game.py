@@ -33,9 +33,9 @@ class Game:
         resultsRoundsPerTeams = []
         for i in range(5):
             round = Round.playRoundPerTeam(Round, self.teamsList[i])
-            # print("rondaaas - ", round)
+            print("rondaaas - ", round)
             resultsRoundsPerTeams.append([i, self.sumPointsTotalTeam(round)])
-            # print("Total ronda equipo - ", i ," - ", self.sumPointsTotalTeam(round))
+            print("Total ronda equipo - ", self.teamsList[i].id ," - ", self.sumPointsTotalTeam(round))
         return resultsRoundsPerTeams
 
     def calculateWorstAndContinueTeams(self):

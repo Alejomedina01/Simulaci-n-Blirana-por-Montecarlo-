@@ -1,5 +1,7 @@
 import random
 
+from Team import Team
+
 
 class Round:
     initialTryRanges = [0, 6, 11, 21, 33, 48, 63, 81, 100]
@@ -45,12 +47,10 @@ class Round:
         return player.weight / (player.heigth / 100) ** 2
 
     def calculateRangesPerIMC(self, player):
-        if player.beersNumber > 2:
+        if player.beersNumber > 5:
             imc = self.calculateIMC(self, player)
-            print("inidce de masa: ", imc)
             if imc >= 28:
                 self.initialTryRanges[1] -= 3
                 self.initialTryRanges[2] += 1
                 self.initialTryRanges[3] += 1
                 self.initialTryRanges[4] += 1
-
