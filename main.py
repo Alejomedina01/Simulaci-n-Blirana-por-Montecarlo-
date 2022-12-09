@@ -1,66 +1,100 @@
 from Game import Game
 from Team import Team
 
-
-class Simulation:
-
-
-    def __init__(self, allTeams):
-        self.teamsList = allTeams
-        self.listAux = self.teamsList
-        self.subs = []
-        self.eliminados = []
-        self.continuan = []
-        self.playSimulation(self)
-
-    def playGame(self, teams):
-        game = Game(teams)
-        self.deleteLoserTeam(self, game)
-        self.nextTeams(self, game)
-
-    def deleteLoserTeam(self, game):
-        for i in self.teamsList:
-            if i.id == game.worstTeam.id:
-                print(game.worstTeam)
-                print("ELIMINADO -> ", i.id)
-                self.eliminados.append(i)
-
-    def nextTeams(self, game):
-        self.continuan.extend(game.resultTeams)
-
-    def calculateSubLists(self):
-        i = 0
-        j = 5
-        while(j <= len(self.teamsList)):
-            self.subs.append(self.teamsList[i:j])
-            print(self.teamsList[i:j])
-            i = j
-            j += 5
-
-    def playSimulation(self):
-        self.calculateSubLists(self)
-        for i in self.subs:
-            self.playGame(self, i)
+teamsList = []
+subs = []
+eliminados = []
+continuan = []
 
 
+def playGame(teams):
+    game = Game(teams)
+    deleteLoserTeam(game)
+    nextTeams(game)
 
-allTeamsList = []
+def deleteLoserTeam(game):
+    for i in teamsList:
+        if i.id == game.worstTeam.id:
+            print(game.worstTeam)
+            print("ELIMINADO -> ", i.id)
+            eliminados.append(i)
+
+def nextTeams(game):
+    continuan.extend(game.resultTeams)
+
+def calculateSubLists():
+    subs.clear()
+    aux = auxFunction(len(teamsList))
+    i = 0
+    j = aux
+    while(j <= len(teamsList)):
+        subs.append(teamsList[i:j])
+        print(teamsList[i:j])
+        i = j
+        j += aux
+
+def auxFunction(number):
+    number = number
+    aux = 5
+    while (number % aux) != 0:
+        aux -= 1
+    return aux
+
+def playSimulation():
+    calculateSubLists()
+    continuan.clear()
+    for i in subs:
+        playGame(i)
+
+
+
+#SIMULACIÓN
+
+auxList = []
 for i in range(100):
     team = Team(i)
-    allTeamsList.append(team)
+    auxList.append(team)
+
+teamsList = auxList
 
 print("Iniciales")
-for i in allTeamsList:
+for i in teamsList:
     print(i.id)
 
-simulation = Simulation(allTeamsList)
-# print(len(continuan))
-# print("final")
-# for i in continuan:
-#     print(i.id)
-# #
-# for i in eliminados:
-#     print("eliminado ", i.id)
+playSimulation()
+
+print(len(continuan))
+print("final")
+for i in continuan:
+    print("continua ", i.id)
+
+for i in eliminados:
+    print("eliminado ", i.id)
+
+teamsList.clear()
+teamsList = continuan
+
+print("Iniciales")
+for i in teamsList:
+    print(i.id)
+
+playSimulation()
+
+print(len(continuan))
+print("final")
+for i in continuan:
+    print("continua ", i.id)
+
+for i in eliminados:
+    print("eliminado ", i.id)
+
+teamsList.clear()
+teamsList = continuan
+
+print("conti ", teamsList)
+
+
+
 
 
 

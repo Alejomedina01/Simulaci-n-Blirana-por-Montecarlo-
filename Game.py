@@ -31,7 +31,7 @@ class Game:
 
     def playRoundTeamsList(self):
         resultsRoundsPerTeams = []
-        for i in range(5):
+        for i in range(len(self.teamsList)):
             round = Round.playRoundPerTeam(Round, self.teamsList[i])
             print("rondaaas - ", round)
             resultsRoundsPerTeams.append([i, self.sumPointsTotalTeam(round)])
@@ -47,6 +47,6 @@ class Game:
                 worstAux = i[1]
                 indexWorstTeam = i[0]
         self.worstTeam = self.teamsList[indexWorstTeam]
-        for i in range(5):
+        for i in range(len(self.teamsList)):
             if i != indexWorstTeam:
                 self.resultTeams.append(self.teamsList[i])

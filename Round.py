@@ -1,7 +1,5 @@
 import random
 
-from Team import Team
-
 
 class Round:
     initialTryRanges = [0, 6, 11, 21, 33, 48, 63, 81, 100]
