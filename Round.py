@@ -11,17 +11,21 @@ class Round:
     def playRoundPerTeam(self, team):
         result = []
         for player in team.playerlist:
-            result.append(self.triesPerPlayer(self, player))
+            points = self.triesPerPlayer(self, player)
+            player.finalPoints += sum(points)
+            result.append(points)
         return result
+
 
     def triesPerPlayer(self, player):
         self.calculateRangesPerBeers(self, player)
         self.calculateRangesPerIMC(self, player)
-        print(self.initialTryRanges)
+        # print(self.initialTryRanges)
         result = []
         for i in range(6):
             pseudo = random.randint(0, 100)
-            result.append(self.oneTryOnePlayer(self, pseudo, player))
+            points = self.oneTryOnePlayer(self, pseudo, player)
+            result.append(points)
         return result
 
     def oneTryOnePlayer(self, pseudo, player):

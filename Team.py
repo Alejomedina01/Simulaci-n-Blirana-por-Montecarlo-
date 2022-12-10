@@ -10,5 +10,5 @@ class Team:
     def generatePlayers(self):
         players = []
         for i in range(7):
-            players.append(Player(random.randint(160, 190), random.randint(50, 100), 0))
+            players.append(Player((repr(self.id) + repr(i)), random.randint(160, 190), random.randint(50, 100), 0))
         return players

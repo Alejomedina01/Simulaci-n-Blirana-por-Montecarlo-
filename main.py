@@ -1,100 +1,110 @@
 from Game import Game
 from Team import Team
-
-teamsList = []
-subs = []
-eliminados = []
-continuan = []
+from matplotlib import pyplot as plt
 
 
-def playGame(teams):
-    game = Game(teams)
-    deleteLoserTeam(game)
-    nextTeams(game)
+class Simulation:
 
-def deleteLoserTeam(game):
-    for i in teamsList:
-        if i.id == game.worstTeam.id:
-            print(game.worstTeam)
-            print("ELIMINADO -> ", i.id)
-            eliminados.append(i)
+    def __init__(self, teamsLists, id):
+        self.id = id
+        self.teamsList = teamsLists
+        self.subs = []
+        self.eliminados = []
+        self.continuan = []
+        self.playSimulation()
 
-def nextTeams(game):
-    continuan.extend(game.resultTeams)
+    def playGame(self, teams):
+        game = Game(teams)
+        self.deleteLoserTeam(game)
+        self.nextTeams(game)
 
-def calculateSubLists():
-    subs.clear()
-    aux = auxFunction(len(teamsList))
-    i = 0
-    j = aux
-    while(j <= len(teamsList)):
-        subs.append(teamsList[i:j])
-        print(teamsList[i:j])
-        i = j
-        j += aux
+    def deleteLoserTeam(self, game):
+        for i in self.teamsList:
+            if i.id == game.worstTeam.id:
+                print("ELIMINADO -> ", i.id)
+                self.eliminados.append(i)
 
-def auxFunction(number):
-    number = number
-    aux = 5
-    while (number % aux) != 0:
-        aux -= 1
-    return aux
+    def nextTeams(self, game):
+        self.continuan.extend(game.resultTeams)
 
-def playSimulation():
-    calculateSubLists()
-    continuan.clear()
-    for i in subs:
-        playGame(i)
+    def calculateSubLists(self):
+        self.subs.clear()
+        aux = self.auxFunction(len(self.teamsList))
+        i = 0
+        j = aux
+        while(j <= len(self.teamsList)):
+            self.subs.append(self.teamsList[i:j])
+            print(self.teamsList[i:j])
+            i = j
+            j += aux
 
+    def auxFunction(self, number):
+        number = number
+        aux = 5
+        while (number % aux) != 0:
+            aux -= 1
+        return aux
 
+    def playSimulation(self):
+        self.calculateSubLists()
+        self.continuan.clear()
+        for i in self.subs:
+            self.playGame(i)
+
+    def printPlots(self):
+        beersList = []
+        pointsList = []
+        for i in self.continuan:
+            for j in i.playerlist:
+                # print(j.id, "cervezas: ", j.beersNumber, "puntaje: ", j.finalPoints)
+                beersList.append(j.beersNumber)
+                pointsList.append(j.finalPoints)
+        plt.plot(beersList, pointsList, "ro")
+        plt.title("Grafica Cervezas vs Puntos x cada jugador (numero: "+ str(self.id)+ ")")
+        plt.show()
 
 #SIMULACIÓN
 
+#Generación de los equipos
 auxList = []
 for i in range(100):
     team = Team(i)
     auxList.append(team)
 
-teamsList = auxList
+aux = auxList
 
-print("Iniciales")
-for i in teamsList:
-    print(i.id)
-
-playSimulation()
-
-print(len(continuan))
-print("final")
-for i in continuan:
-    print("continua ", i.id)
-
-for i in eliminados:
-    print("eliminado ", i.id)
-
-teamsList.clear()
-teamsList = continuan
-
-print("Iniciales")
-for i in teamsList:
-    print(i.id)
-
-playSimulation()
-
-print(len(continuan))
-print("final")
-for i in continuan:
-    print("continua ", i.id)
-
-for i in eliminados:
-    print("eliminado ", i.id)
-
-teamsList.clear()
-teamsList = continuan
-
-print("conti ", teamsList)
+#Creación de la simulacion hasta quedar 3 equipos finalistas
+simulations = []
+id = 1
+while(len(aux) >= 4):
+    simu = Simulation(aux, id)
+    id += 1
+    print("finalistas ", len(simu.continuan))
+    simu.printPlots()
+    aux = simu.continuan
 
 
+#Grafica de los 3 equipos finalistas
+beersNumber = []
+finalPoints = []
+for i in aux:
+    for j in i.playerlist:
+        print(j.id, "   ----Cervezas:  ", j.beersNumber, "     ----Puntos: ", j.finalPoints)
+        beersNumber.append(j.beersNumber)
+        finalPoints.append(j.finalPoints)
 
+plt.title("Jugadores de los 3 mejores equipos")
+plt.plot(beersNumber, finalPoints, "ro")
+plt.show()
 
+#Equipo Ganador
+while(len(aux) >= 2):
+    simu = Simulation(aux, id)
+    id += 1
+    print("finalistas ", len(simu.continuan))
+    simu.printPlots()
+    aux = simu.continuan
 
-
+print("Equipo Ganador: ", aux[0].id)
+for x in aux[0].playerlist:
+    print("id: ", x.id, "Cervezas: ", x.beersNumber, "Puntaje: ", x.finalPoints)
