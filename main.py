@@ -34,9 +34,19 @@ class Simulation:
         j = aux
         while(j <= len(self.teamsList)):
             self.subs.append(self.teamsList[i:j])
-            print(self.teamsList[i:j])
             i = j
             j += aux
+        for x in self.showGroupTeamsSubs():
+            print(x)
+
+    def showGroupTeamsSubs(self):
+        list = []
+        for x in self.subs:
+            listAux = []
+            for k in x:
+                listAux.append(k.id)
+            list.append(listAux)
+        return list
 
     def auxFunction(self, number):
         number = number
@@ -85,6 +95,7 @@ while(len(aux) >= 4):
 
 
 #Grafica de los 3 equipos finalistas
+print("Datos de los jugadores de los 3 equipos finalistas")
 beersNumber = []
 finalPoints = []
 for i in aux:
