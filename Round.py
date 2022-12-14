@@ -2,7 +2,7 @@ import random
 
 
 class Round:
-    initialTryRanges = [0, 6, 11, 21, 33, 48, 63, 81, 100]
+    initialTryRanges = [0, 6, 24, 39, 51, 61, 71, 85, 100]
     points = [0, 200, 150, 100, 40, 50, 25, 20]
 
     def __init__(self):
@@ -38,12 +38,12 @@ class Round:
         return result
 
     def calculateRangesPerBeers(self, player):
-        if 2 <= player.beersNumber <= 4:
-            self.initialTryRanges = [0, 9, 13, 22, 33, 48, 63, 81, 100]
-        elif 5 <= player.beersNumber <= 7:
-            self.initialTryRanges = [0, 11, 14, 23, 33, 48, 63, 81, 100]
-        else:
-            self.initialTryRanges = [0, 12, 15, 23, 33, 48, 63, 81, 100]
+        if 2 <= player.beersNumber <= 5:
+            self.initialTryRanges = [0, 10, 22, 32, 43, 56, 69, 84, 100]
+        elif 6 <= player.beersNumber <= 10:
+            self.initialTryRanges = [0, 20, 23, 29, 37, 52, 63, 81, 100]
+        elif player.beersNumber > 10:
+            self.initialTryRanges = [0, 30, 32, 36, 44, 56, 66, 81, 100]
 
     def calculateIMC(self, player):
         return player.weight / (player.heigth / 100) ** 2
